@@ -1,0 +1,19 @@
+//build
+javac -d bin src/client/*.java
+javac -d bin src/server/*.java
+
+//start server
+java server.SocketListener
+
+//bin
+//start client from bin
+java client.SocketClient [address] [port] [message]
+
+//server key file 
+keytool -genkey -keystore sslserverkeys -keyalg RSA
+
+//export key as cert
+keytool -export -keystore sslserverkeys -file cert.cer -keyalg RSA
+
+//Add the cert to the trust store of the client
+keytool -import -keystore sslclienttrust -file cert.cer -keyalg RSA
