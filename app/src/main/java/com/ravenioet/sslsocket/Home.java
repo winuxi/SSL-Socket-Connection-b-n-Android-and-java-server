@@ -10,23 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+
 import com.ravenioet.sslsocket.databinding.HomeBinding;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.security.KeyStore;
-import java.security.SecureRandom;
-
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
 
 public class Home extends Fragment {
 
@@ -35,7 +20,7 @@ public class Home extends Fragment {
     public static final String SERVER_IP = "192.168.8.102"; //"10.42.0.1"; // In case I have to use a hotspot
 
 
-    private ConnectionManagerTask connectionManager;
+    private SocketListener connectionManager;
 
     public static final String TAG = "TCP Client";
 
@@ -54,7 +39,7 @@ public class Home extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Connect to the server
-        connectionManager = new ConnectionManagerTask(this);
+        connectionManager = new SocketListener(this);
         connectionManager.execute("thanks");
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override

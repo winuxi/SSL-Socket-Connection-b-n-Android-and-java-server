@@ -2,12 +2,12 @@ package com.ravenioet.sslsocket;
 
 import android.os.AsyncTask;
 
-public class ConnectionManagerTask extends AsyncTask<String, String, TCPClient> {
+public class SocketListener extends AsyncTask<String, String, TCPClient> {
 
     private Home mainActivity;
     public TCPClient mTcpClient;
 
-    public ConnectionManagerTask(Home mainActivity) {
+    public SocketListener(Home mainActivity) {
         this.mainActivity = mainActivity;
     }
 

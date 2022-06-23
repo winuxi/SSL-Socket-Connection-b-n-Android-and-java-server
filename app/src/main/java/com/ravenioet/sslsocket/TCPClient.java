@@ -34,9 +34,6 @@ public class TCPClient {
     private PrintWriter out;
     private BufferedReader in;
 
-    /**
-     *  Constructor of the class. OnMessagedReceived listens for the messages received from server
-     */
     public TCPClient(Home mainActivity, String ip, int port, OnMessageReceived listener)
     {
         this.mainActivity = mainActivity;
@@ -45,10 +42,6 @@ public class TCPClient {
         mMessageListener = listener;
     }
 
-    /**
-     * Sends the message entered by client to the server.
-     * @param message text entered by client
-     */
     public void sendMessage(String message){
         // As of Android 4.0 we have to send to network in another thread...
         TCPMessageSendTask sender = new TCPMessageSendTask(out, message);
@@ -121,8 +114,6 @@ public class TCPClient {
 
     }
 
-    // Declare the interface. The method messageReceived(String message) will must be implemented
-    // in the implementing class
     public interface OnMessageReceived {
         void messageReceived(String message);
     }
