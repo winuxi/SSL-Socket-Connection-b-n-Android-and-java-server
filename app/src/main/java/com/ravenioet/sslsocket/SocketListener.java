@@ -4,17 +4,17 @@ import android.os.AsyncTask;
 
 public class SocketListener extends AsyncTask<String, String, TCPClient> {
 
-    private Home mainActivity;
+    private final Home home;
     public TCPClient mTcpClient;
 
-    public SocketListener(Home mainActivity) {
-        this.mainActivity = mainActivity;
+    public SocketListener(Home home) {
+        this.home = home;
     }
 
     @Override
     protected TCPClient doInBackground(String... message) {
 
-        mTcpClient = new TCPClient(mainActivity, Home.SERVER_IP, Home.SERVER_PORT,
+        mTcpClient = new TCPClient(home, Home.SERVER_IP, Home.SERVER_PORT,
                 this::publishProgress
         );
         mTcpClient.run();
@@ -26,6 +26,6 @@ public class SocketListener extends AsyncTask<String, String, TCPClient> {
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
 
-        mainActivity.appendServerMessageToLog(values[0]);
+        home.appendServerMessageToLog(values[0]);
     }
 }

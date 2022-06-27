@@ -20,23 +20,22 @@ public class TCPClient {
 
     public SSLSocket socket = null;
 
-    private Home mainActivity;
+    private final Home home;
     private String serverMessage;
     private static String SERVER_IP = "";
     private static int SERVER_PORT = 0;
     private OnMessageReceived mMessageListener = null;
     private boolean mRun = false;
-    private char[] keystorepass = "sec-android".toCharArray(); // If your keystore has a password, put it here
+    private final char[] keyStorePass = "sec-android".toCharArray(); // If your keystore has a password, put it here
 
     public static final String TAG = "TCP Client";
 
     // These handle the I/O
     private PrintWriter out;
-    private BufferedReader in;
 
-    public TCPClient(Home mainActivity, String ip, int port, OnMessageReceived listener)
+    public TCPClient(Home home, String ip, int port, OnMessageReceived listener)
     {
-        this.mainActivity = mainActivity;
+        this.home = home;
         SERVER_IP = ip;
         SERVER_PORT = port;
         mMessageListener = listener;
@@ -63,8 +62,8 @@ public class TCPClient {
 
             KeyStore ks = KeyStore.getInstance("BKS");
             // Load the keystore file
-            InputStream keyin = mainActivity.getResources().openRawResource(R.raw.sec_android);
-            ks.load(keyin, keystorepass);
+            InputStream keyin = home.getResources().openRawResource(R.raw.sec_android);
+            ks.load(keyin, keyStorePass);
 
             // Create a SSLSocketFactory that allows for self signed certs
             SSLSocketFactory socketFactory = new SSLSocketFactory(ks);
@@ -81,7 +80,7 @@ public class TCPClient {
                 Log.d(TAG, "Message Sent.");
 
                 // Create the message receiver
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 // Listen for the messages sent by the server, stopClient breaks this loop
                 while (mRun) {
@@ -121,10 +120,10 @@ public class TCPClient {
     /**
      * A simple task for sending messages across the network.
      */
-    public class TCPMessageSendTask extends AsyncTask<Void, Void, Void> {
+    public static class TCPMessageSendTask extends AsyncTask<Void, Void, Void> {
 
-        private PrintWriter out;
-        private String message;
+        private final PrintWriter out;
+        private final String message;
 
         public TCPMessageSendTask(PrintWriter out, String message){
             this.out = out;
